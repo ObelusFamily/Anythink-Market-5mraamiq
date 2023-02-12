@@ -8,20 +8,14 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function CommentInput(props) {
-  const [state, setState] = useState("")
-
-  const setBody = (ev) => {
-    setState({ body: ev.target.value })
-  }
+  const [body, setBody] = useState("")
 
   const createComment = async (ev) => {
     ev.preventDefault();
-    agent.Comments.create(props.slug, {
-      body: state.body,
-    }).then((payload) => {
+    agent.Comments.create(props.slug, { body }).then((payload) => {
       props.onSubmit(payload);
     });
-    setState({ body: "" });
+    setBody("");
   };
 
   return (
@@ -30,8 +24,8 @@ function CommentInput(props) {
         <textarea
           className="form-control"
           placeholder="Write a comment..."
-          value={state.body}
-          onChange={setBody}
+          value={body}
+          onChange={(ev) => setBody(ev.target.value)}
           rows="3"
         ></textarea>
       </div>
